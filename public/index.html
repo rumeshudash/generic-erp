@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta http-equiv="expires" content="0">
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -24,20 +25,215 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/balloon-css/0.5.0/balloon.min.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap" rel="stylesheet">
+    
+    <title>SK ERP Panel</title>
+    <style>
+      html,
+      body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          background: #eaeef0;
+      }
+
+      .loading-elements {
+          height: 100%;
+          display: flex;
+      }
+
+      .loading-sidebar {
+          width: 40px;
+          background: #35485b;
+          height: 100%;
+          z-index: 100;
+      }
+
+      .loading-header {
+          width: 100%;
+          flex-direction: column;
+          min-height: 45px;
+          height: 45px;
+          background: #fff;
+          display: flex;
+          justify-content: center;
+          /* align-items: center; */
+      }
+
+      .logo-box {
+          height: 45px;
+          background: #303e4c;
+          border-color: #303e4c;
+      }
+
+      .dummy-box-container {
+          display: flex;
+          width: 100%;
+          height: 100;
+      }
+
+      .vertical {
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+      }
+
+      .horizontal {
+          justify-content: space-between;
+      }
+
+      .right {
+          display: flex;
+          margin-right: 15px;
+      }
+
+      .left {
+          width: 10%;
+          justify-content: space-around;
+          display: flex;
+      }
+
+      .dummy-box {
+          height: 30px;
+          width: 30px;
+          margin: 5px;
+          background: #eaeef0;
+          border-radius: 5px;
+          /* background: linear-gradient(to right, #e9eef0, #c1cfd5); */
+          background-size: 200% 200%;
+          /* animation: Animation 1s ease infinite; */
+      }
+
+      .dummy-box-uat {
+          height: 30px;
+          width: 90px;
+          margin: 5px;
+          background: #eaeef0;
+          border-radius: 5px;
+          /* background: linear-gradient(to right, #e9eef0, #c1cfd5); */
+          background-size: 200% 200%;
+          /* animation: Animation 1s ease infinite; */
+      }
+
+      .loader-animation {
+          width: 100%;
+      }
+
+      .loader-line {
+          display: block;
+          position: absolute;
+          /* content: ""; */
+          left: -200px;
+          width: 100%;
+          height: 1px;
+          /* top: 45px; */
+          background-color: #43af5e;
+          animation: loading 2s linear infinite;
+      }
+
+      @keyframes loading {
+          from {
+              left: -200px;
+              width: 0%;
+          }
+
+          50% {
+              width: 30%;
+          }
+
+          70% {
+              width: 70%;
+          }
+
+          80% {
+              left: 50%;
+          }
+
+          95% {
+              left: 60%;
+          }
+
+          to {
+              left: 100%;
+          }
+      }
+
+      .dummy-box-dark {
+          height: 25px;
+          width: 25px;
+          margin: 8px;
+          background: #3e576a;
+          border-radius: 5px;
+      }
+    </style>
   </head>
   <body>
+    <!-- Script for deleting cookies for everyone -->
+    <script>
+      // deleteAllCookies();
+      function deleteAllCookies() {
+          if (localStorage.isCookieAlreadyCleared === 'true' || localStorage.isCookieAlreadyCleared === true) {
+              console.log('Already done');
+              return;
+          }
+          if (window.parent && window.parent.caches) {
+              window.parent.caches.delete("call");
+          }
+
+          console.log('cookie cleared');
+          var cookies = document.cookie.split(";");
+
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = cookies[i];
+              var eqPos = cookie.indexOf("=");
+              var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+              document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+          }
+          localStorage.isCookieAlreadyCleared = true;
+      }
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <div id="admin-root"></div>
+    
+    <!-- Loading Effect HTML Goes here-->
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <div class="loading-elements" id='loading-div'>
+      <div class="loading-sidebar">
+          <div class="">
+              <div class="logo-box"></div>
+              <div class="dummy-box-container vertical">
+                  <div class="dummy-box-dark"></div>
+                  <div class="dummy-box-dark"></div>
+                  <div class="dummy-box-dark"></div>
+                  <div class="dummy-box-dark"></div>
+                  <div class="dummy-box-dark"></div>
+                  <div class="dummy-box-dark"></div>
+              </div>
+          </div>
+      </div>
+      <div class="loader-animation">
+          <div class="loading-header">
+              <div class="dummy-box-container horizontal">
+                  <div class="left">
+                      <div class="dummy-box"></div>
+                      <div class="dummy-box"></div>
+                      <div class="dummy-box"></div>
+                  </div>
+                  <div class="right">
+                      <div class="dummy-box-uat"></div>
+                      <div class="dummy-box"></div>
+                      <div class="dummy-box"></div>
+                  </div>
+              </div>
+          </div>
+          <div class="loader-line"></div>
+      </div>
+    </div>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+    <!-- Effect Ends -->
+
   </body>
 </html>
