@@ -71,7 +71,6 @@ export const initializeFirebase = async () => {
             if (payload && payload.data) {
 
                 let { data = {} } = payload;
-                const { title } = data;
 
                 const isNotification = data.is_notification;
 
@@ -241,7 +240,7 @@ function isNewNotificationSupported() {
     try {
         new Notification('');
     } catch (e) {
-        if (e.name == 'TypeError')
+        if (e.name === 'TypeError')
             return false;
     }
     return true;
